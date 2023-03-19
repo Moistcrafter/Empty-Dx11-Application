@@ -54,7 +54,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         g_pd3dDeviceContext->OMSetRenderTargets(1, &g_mainRenderTargetView, NULL);
         g_pd3dDeviceContext->ClearRenderTargetView(g_mainRenderTargetView, color);
 
-        g_pSwapChain->Present(1, 0); 
+        g_pSwapChain->Present(0, 0); 
         
     }
     CleanupDeviceD3D();
@@ -73,8 +73,8 @@ bool CreateDeviceD3D(HWND hWnd)
     sd.BufferDesc.Width = 0;
     sd.BufferDesc.Height = 0;
     sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    sd.BufferDesc.RefreshRate.Numerator = 60;
-    sd.BufferDesc.RefreshRate.Denominator = 1;
+    sd.BufferDesc.RefreshRate.Numerator = 0;
+    sd.BufferDesc.RefreshRate.Denominator = 0;
     sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
     sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     sd.OutputWindow = hWnd;
