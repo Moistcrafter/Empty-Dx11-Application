@@ -13,7 +13,7 @@ void CleanupDeviceD3D();
 void CreateRenderTarget();
 void CleanupRenderTarget();
 
-FLOAT color[] = { 0, 0, 0, 0 };
+FLOAT color[] = { 0, 0, 0, 1 };
 
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
