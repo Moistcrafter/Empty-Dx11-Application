@@ -36,7 +36,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         ::UnregisterClassW(wc.lpszClassName, wc.hInstance);
         return 1;
     }
-    
+
+    HCURSOR hCursor = ::LoadCursor(NULL, IDC_ARROW);
+    ::SetClassLongPtr(hwnd, GCLP_HCURSOR, reinterpret_cast<LONG_PTR>(hCursor));
+
     ::ShowWindow(hwnd, SW_SHOWDEFAULT);
     ::UpdateWindow(hwnd);
 
