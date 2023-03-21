@@ -18,10 +18,7 @@ void CleanupRenderTarget();
 
 FLOAT color[] = { 0, 0, 0, 1 };
 
-
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-//int main(int, char**) //This is for if you are using Subsystem type CONSOLE
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -73,7 +70,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 bool CreateDeviceD3D(HWND hWnd)
 {
-    
     DXGI_SWAP_CHAIN_DESC sd;
     ZeroMemory(&sd, sizeof(sd));
     sd.BufferCount = 2;
@@ -137,8 +133,9 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             CreateRenderTarget();
         }
         return 0;
+
     case WM_SYSCOMMAND:
-        if ((wParam & 0xfff0) == SC_KEYMENU) 
+        if ((wParam & 0xfff0) == SC_KEYMENU)
             return 0;
         break;
 
@@ -151,14 +148,12 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             {
                 if (!g_fullscreen)
                 {
-                    // Go full screen
-                    GetWindowRect(hWnd, &g_windowRect); // Store the current window rectangle
+                    GetWindowRect(hWnd, &g_windowRect);
                     SetWindowLong(hWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
                     SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_SHOWWINDOW);
                 }
                 else
                 {
-                    // Go back to windowed mode
                     SetWindowLong(hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW | WS_VISIBLE);
                     SetWindowPos(hWnd, HWND_TOP, g_windowRect.left, g_windowRect.top, g_windowRect.right - g_windowRect.left, g_windowRect.bottom - g_windowRect.top, SWP_FRAMECHANGED);
                 }
