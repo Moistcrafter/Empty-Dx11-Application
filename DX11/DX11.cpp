@@ -3,10 +3,13 @@
 #include <d3d11.h>
 #include <tchar.h>
 
-static ID3D11Device*            g_pd3dDevice = NULL;
-static ID3D11DeviceContext*     g_pd3dDeviceContext = NULL;
-static IDXGISwapChain*          g_pSwapChain = NULL;
-static ID3D11RenderTargetView*  g_mainRenderTargetView = NULL;
+static ID3D11Device* g_pd3dDevice = NULL;
+static ID3D11DeviceContext* g_pd3dDeviceContext = NULL;
+static IDXGISwapChain* g_pSwapChain = NULL;
+static ID3D11RenderTargetView* g_mainRenderTargetView = NULL;
+
+static bool g_fullscreen = false;
+RECT g_windowRect; 
 
 bool CreateDeviceD3D(HWND hWnd);
 void CleanupDeviceD3D();
@@ -14,6 +17,7 @@ void CreateRenderTarget();
 void CleanupRenderTarget();
 
 FLOAT color[] = { 0, 0, 0, 1 };
+
 
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -134,9 +138,31 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         if ((wParam & 0xfff0) == SC_KEYMENU) 
             return 0;
         break;
+
     case WM_DESTROY:
         ::PostQuitMessage(0);
         return 0;
+
+    case WM_KEYDOWN:
+            if (wParam == VK_F11)
+            {
+                if (!g_fullscreen)
+                {
+                    // Go full screen
+                    GetWindowRect(hWnd, &g_windowRect); // Store the current window rectangle
+                    SetWindowLong(hWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
+                    SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_SHOWWINDOW);
+                }
+                else
+                {
+                    // Go back to windowed mode
+                    SetWindowLong(hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW | WS_VISIBLE);
+                    SetWindowPos(hWnd, HWND_TOP, g_windowRect.left, g_windowRect.top, g_windowRect.right - g_windowRect.left, g_windowRect.bottom - g_windowRect.top, SWP_FRAMECHANGED);
+                }
+                g_fullscreen = !g_fullscreen;
+            }
+            break;
     }
     return ::DefWindowProcW(hWnd, msg, wParam, lParam);
 }
+
